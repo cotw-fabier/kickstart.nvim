@@ -331,6 +331,20 @@ require('lazy').setup({
     },
   },
 
+  -- Setup Rust tools
+
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    lazy = false, -- This plugin is already lazy
+    config = function()
+      vim.keymap.set('n', '<leader>z', function()
+        vim.cmd.RustLsp 'codeAction' -- supports rust-analyzer's grouping
+        -- or vim.lsp.buf.codeAction() if you don't want grouping.
+      end, { silent = true, buffer = bufnr })
+    end,
+  },
+
   -- Setup Flutter tools
   'Nash0x7E2/awesome-flutter-snippets',
   {
@@ -707,11 +721,11 @@ require('lazy').setup({
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+          ['rust_analyzer'] = function() end,
         },
       }
     end,
   },
-
   { -- Autoformat
     'stevearc/conform.nvim',
     lazy = false,
